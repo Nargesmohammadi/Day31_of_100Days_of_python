@@ -1,13 +1,19 @@
 from tkinter import *
 import pandas
 import random
-import time
 
 BACKGROUND_COLOR = "#B1DDC6"
-
-data = pandas.read_csv("./Day31/french_words.csv")
-words = data.to_dict(orient="records")
 current_card = {}
+words = {}
+# use the words_to_learn.csv instead of french_words.csv:
+# if we remove the words_to_learn.csv file and run the code, we give file not found error for this:
+try:
+    data = pandas.read_csv("words_to_learn.csv")
+except FileNotFoundError:
+    original_data = pandas.read_csv("./Day31/french_words.csv")
+    words = original_data.to_dict(orient="records")
+else:
+    words = data.to_dict(orient="records")
 
 
 def random_cards():
@@ -30,6 +36,16 @@ def flip_card():
     canvas.itemconfig(canvas_image, image=back_image)
 
 
+def is_known():
+    words.remove(current_card)
+
+    pandas.DataFrame(words)
+    # each time we run the code the number of record is saves in words_to_learn.csv, so we add index= false to don't
+    # save these numbers:
+    data.to_csv("words_to_learn.csv", index=False)
+    random_cards()
+
+
 window = Tk()
 window.title("Flashy")
 window.config(padx=50, pady=50, bg=BACKGROUND_COLOR)
@@ -47,7 +63,7 @@ canvas.grid(column=0, row=0, columnspan=2)
 back_image = PhotoImage(file="./Day31/card_back.png")
 
 right_image = PhotoImage(file="./Day31/right.png")
-right_button = Button(image=right_image, command=random_cards)
+right_button = Button(image=right_image, command=is_known)
 right_button.grid(column=1, row=1)
 
 wrong_image = PhotoImage(file="./Day31/wrong.png")
@@ -59,6 +75,5 @@ wrong_button.grid(column=0, row=1)
 
 random_cards()
 flip_card()
+is_known()
 window.mainloop()
-
-
