@@ -10,7 +10,7 @@ words = {}
 try:
     data = pandas.read_csv("words_to_learn.csv")
 except FileNotFoundError:
-    original_data = pandas.read_csv("./Day31/french_words.csv")
+    original_data = pandas.read_csv("./Flash Card APP/french_words.csv")
     words = original_data.to_dict(orient="records")
 else:
     words = data.to_dict(orient="records")
@@ -53,24 +53,24 @@ window.config(padx=50, pady=50, bg=BACKGROUND_COLOR)
 flip_timer = window.after(3000, func=flip_card)
 
 canvas = Canvas(width=800, height=526)
-front_image = PhotoImage(file="./Day31/card_front.png")
+front_image = PhotoImage(file="./Flash Card APP/card_front.png")
 canvas_image = canvas.create_image(400, 263, image=front_image)
 card_title = canvas.create_text(400, 150, text="", font=("Arial", 40, "normal"))
 card_word = canvas.create_text(400, 263, text="", font=("Arial", 60, "normal"))
 canvas.config(bg=BACKGROUND_COLOR, highlightthickness=0)
 canvas.grid(column=0, row=0, columnspan=2)
 
-back_image = PhotoImage(file="./Day31/card_back.png")
+back_image = PhotoImage(file="./Flash Card APP/card_back.png")
 
-right_image = PhotoImage(file="./Day31/right.png")
+right_image = PhotoImage(file="./Flash Card APP/right.png")
 right_button = Button(image=right_image, command=is_known)
 right_button.grid(column=1, row=1)
 
-wrong_image = PhotoImage(file="./Day31/wrong.png")
+wrong_image = PhotoImage(file="./Flash Card APP/wrong.png")
 wrong_button = Button(image=wrong_image, command=random_cards)
 wrong_button.grid(column=0, row=1)
 
-# back_image = PhotoImage(file="./Day31/card_back.png")
+# back_image = PhotoImage(file="./Flash Card APP/card_back.png")
 # canvas.create_image(400, 263, image=back_image)
 
 random_cards()
